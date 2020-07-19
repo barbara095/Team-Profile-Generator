@@ -6,7 +6,7 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
-const OUTPUT_DIR = path.resolve(__dirname, "nooutput");
+const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
@@ -43,10 +43,6 @@ function createTeam() {
 
       case 'Add Intern':
         addIntern();
-        break;
-
-      case 'No more employees to add':
-        render(teamMembers);
         break;
 
       default:
@@ -119,7 +115,7 @@ function addManager() {
       teamMembers.push(manager);
       console.log(teamMembers);
       
-      createTeam();
+      addMember();
 
     });
 
@@ -184,7 +180,7 @@ function addEngineer() {
       teamMembers.push(engineer);
       console.log(teamMembers);
       
-      createTeam();
+      addMember();
 
     });
 }
@@ -248,22 +244,35 @@ function addIntern() {
       teamMembers.push(intern);
       console.log(teamMembers);
       
-      createTeam();
+      addMember();
 
     });
 
 }
 
+function addMember()  {
+  return inquirer.prompt([
+    {
+      type: "list",
+      name: "addMember",
+      message: "Would you like to add another member to your team?",
+      choices: ["yes", "no"]
+    }
 
-function buildPage() {
-  fs.writeFileSync(outputPath, render(teamMembers), "utf8", function(err) {
-        if (err) {
-          return console.log(err);
-        }
-        console.log("HTML generated!")
+  ]).then(function(choice)  {
+  if ("yes" === choice.addMember) {
+    createTeam();
+  } else  {
+    const output = render(teamMembers);
+    fs.writeFileSync(outputPath, output, "utf-8", function (err) {
+      console.log(err);
     })
-  }
-// module.exports = teamMembers;
+  };
+});
+};
+
+
+module.exports = teamMembers;
 
 
 
