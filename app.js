@@ -23,12 +23,12 @@ function createTeam() {
     {
       type: "list",
       name: "role",
-      message: "Build up your team",
+      message: "Build your team",
       choices: [
         'Add Manager',
         'Add Engineer',
-        'Add Intern',
-        'No more employees to add']
+        'Add Intern'
+        ]
     },
 
   ]).then(teamRole => {
@@ -53,6 +53,7 @@ function createTeam() {
   });
 }
 
+// Add manager
 function addManager() {
   inquirer.prompt([
     {
@@ -60,7 +61,7 @@ function addManager() {
       name: "name",
       message: "What is your name?",
       validate: answer => {
-        if (answer !=="") {
+        if (answer !== "") {
             return true;
         }
         return "Please enter a name.";
@@ -121,6 +122,7 @@ function addManager() {
 
 }
 
+// Add engineer
 function addEngineer() {
   inquirer.prompt([
     {
@@ -185,6 +187,7 @@ function addEngineer() {
     });
 }
 
+// Add intern
 function addIntern() {
   inquirer.prompt([
     {
@@ -250,21 +253,22 @@ function addIntern() {
 
 }
 
+// Ask user if they would like to add more team members
 function addMember()  {
   return inquirer.prompt([
     {
       type: "list",
       name: "addMember",
       message: "Would you like to add another member to your team?",
-      choices: ["yes", "no"]
+      choices: ["yes please", "no thanks"]
     }
 
   ]).then(function(choice)  {
-  if ("yes" === choice.addMember) {
+  if ("yes please" === choice.addMember) {
     createTeam();
   } else  {
     const output = render(teamMembers);
-    fs.writeFileSync(outputPath, output, "utf-8", function (err) {
+    fs.writeFileSync(outputPath, output, "utf-8", function(err) {
       console.log(err);
     })
   };
@@ -273,28 +277,3 @@ function addMember()  {
 
 
 module.exports = teamMembers;
-
-
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
