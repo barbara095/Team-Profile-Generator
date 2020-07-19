@@ -13,9 +13,6 @@ const render = require("./lib/htmlRenderer");
 
 const teamMembers = [];
 
-// function buildPage(){
-//   fs.writeFileSync(outputPath, render(teamMembers), "utf-8")
-// }
 createTeam();
 
 function createTeam() {
@@ -271,6 +268,7 @@ function addMember()  {
     fs.writeFileSync(outputPath, output, "utf-8", function(err) {
       console.log(err);
     })
+    console.log("Successfully generated a webpage for your team!")
   };
 });
 };
